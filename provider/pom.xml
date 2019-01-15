@@ -43,7 +43,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
-                    <imageName>eureka</imageName>
+                    <imageName>provider</imageName>
                     <dockerHost>https://192.168.99.100:2376</dockerHost>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
