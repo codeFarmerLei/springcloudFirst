@@ -9,6 +9,7 @@
         <module name="common" />
         <module name="demo" />
         <module name="eureka" />
+        <module name="gateway" />
         <module name="provider" />
       </profile>
     </annotationProcessing>
@@ -22,6 +23,7 @@
       <module name="consumer" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="eureka" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="provider" options="-parameters" />
     </option>
   </component>

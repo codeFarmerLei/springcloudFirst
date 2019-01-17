@@ -1,13 +1,12 @@
-package com.xiaohes;
+package com.xiaohes.feign;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Hello world!
+ * RestTemplate注入
  *
  */
 @Configuration
