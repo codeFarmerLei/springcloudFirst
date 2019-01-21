@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -76,6 +77,8 @@ public class SeckillServiceImpl implements ISeckillService {
 	@Transactional
 	public Result startSeckilRedisLock(long seckillId,long userId) {
 		try {
+			//Random rm = new Random();
+			//Thread.sleep(rm.nextInt(500)+3000);
 			Long number =  seckillMapper.selectItemNum(seckillId);
 			if(number>0){
 				//扣库存

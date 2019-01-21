@@ -57,6 +57,23 @@ public class SeckillController {
             }
         };
         executor.execute(task);
+
+
+        ThreadPoolExecutor tpe = ((ThreadPoolExecutor) executor);
+
+        int queueSize = tpe.getQueue().size();
+        System.out.println("当前排队线程数：" + queueSize);
+
+        int activeCount = tpe.getActiveCount();
+        System.out.println("当前活动线程数：" + activeCount);
+
+        long completedTaskCount = tpe.getCompletedTaskCount();
+        System.out.println("执行完成线程数：" + completedTaskCount);
+
+        long taskCount = tpe.getTaskCount();
+        System.out.println("总线程数：" + taskCount);
+
+
         return Result.success();
     }
 
@@ -86,24 +103,33 @@ public class SeckillController {
      */
     @PostMapping("/startKafkaQueue")
     public Result startKafkaQueue(String id){
-        final String killId =  id;
-        for(int i=0;i<1000;i++){
-            final long userId = i;
-            Runnable task = new Runnable() {
-                @Override
-                public void run() {
-                    if(redisUtil.get(killId)==null){
-                        //思考如何返回给用户信息ws
-                        kafkaTemplate.send("seckill",killId+";"+userId);
-                    }else{
-                        //秒杀结束
-                    }
-                    log.info("=========================秒杀开始================="+killId+";"+userId);
+        Result ret = null;
+        try {
+            final String killId =  id;
+            for(int i=0;i<1000;i++){
+                final long userId = i;
+                Runnable task = new Runnable() {
+                    @Override
+                    public void run() {
+                        if(redisUtil.get(killId)==null){
+                            //思考如何返回给用户信息ws
+                            kafkaTemplate.send("seckill",killId+";"+userId);
+                        }else{
+                            //秒杀结束
+                        }
+                        log.info("=========================秒杀开始================="+killId+";"+userId);
 
-                }
-            };
-            executor.execute(task);
+                    }
+                };
+                executor.execute(task);
+            }
+            ret = Result.success();
         }
-        return Result.success();
+        catch (Exception e){
+            e.printStackTrace();
+            kafkaTemplate.getMessageConverter();
+            ret = Result.error(e.getMessage());
+        }
+        return ret;
     }
 }

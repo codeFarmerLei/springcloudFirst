@@ -3,11 +3,18 @@ package com.xiaohes.controller;
 import com.xiaohes.common.bean.Result;
 import com.xiaohes.service.ISeckillService;
 import com.xiaohes.webSocket.WebSocketServer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.requests.OffsetFetchRequest;
+import org.apache.kafka.common.requests.OffsetFetchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author by lei
@@ -25,9 +32,9 @@ public class KafkaConsumer {
      * @param message
      */
     @KafkaListener(topics = "seckill")
-    public void receiveMessage(String message){
+    public void receiveMessage(ConsumerRecord<Integer, String> message){
         //收到通道的消息之后执行秒杀操作
-        String[] array = message.split(";");
+        String[] array = message.value().split(";");
 
         //可以注释掉上面的使用这个测试
         Result result = seckillService.startSeckilRedisLock(Long.parseLong(array[0]), Long.parseLong(array[1]));
@@ -37,7 +44,6 @@ public class KafkaConsumer {
         }else{
             resultStr = "秒杀失败";
         }
-        WebSocketServer.sendInfo(resultStr,array[1]);//推送给前台
-        log.info("====================={}{}=====================",message,resultStr);
+        WebSocketServer.sendInfo(resultStr+message.offset(),array[1]);//推送给前台
     }
 }

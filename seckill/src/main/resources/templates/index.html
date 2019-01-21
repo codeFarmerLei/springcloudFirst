@@ -39,12 +39,12 @@
 
     function startSeckill(item){
         $.ajax({
-            //url : "/startSeckill",
-            url : "/startKafkaQueue",
+            url : "/startSeckill",
+            //url : "/startKafkaQueue",
             type : 'post',
             data : {'id' : item.seckill_id},
             success : function(result) {
-                alert(result.status)
+                console.log(result.status);
             }
         });
     }

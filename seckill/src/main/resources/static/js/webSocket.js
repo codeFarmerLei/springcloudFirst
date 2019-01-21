@@ -7,7 +7,7 @@ socket = {
 	init : function() {
 		//userId：自行追加
 		if ('WebSocket' in window) {
-			webSocket = new WebSocket(basePath+'websocket/1'); 
+			webSocket = new WebSocket(basePath+'websocket/151');
 		} 
 		else if ('MozWebSocket' in window) {
 			webSocket = new MozWebSocket(basePath+"websocket/1");
