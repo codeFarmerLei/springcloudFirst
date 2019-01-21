@@ -3,6 +3,7 @@ package com.xiaohes.common.annotation.impl;
 import com.xiaohes.common.annotation.Servicelock;
 import com.xiaohes.common.utils.RedisUtil;
 import com.xiaohes.common.utils.RedissLockUtil;
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -51,7 +52,7 @@ public class LockAspect {
 
 		Object obj = null;
 		boolean res = false;
-		String seckillId = "com.xiaohes.seckill:";
+		String seckillId = anno.lockpre();
 
 		try {
 			Signature signature = joinPoint.getSignature();
@@ -65,7 +66,7 @@ public class LockAspect {
 			MethodSignature methodSignature = (MethodSignature) signature;
 			//2.最关键的一步:通过这获取到方法的所有参数名称的字符串数组
 			String[] parameterNames = methodSignature.getParameterNames();
-			if (params != null && params.length > 0 && parameterNames != null) {
+			if (StringUtils.isNotEmpty(anno.lockid()) && params != null && params.length > 0 && parameterNames != null) {
 				for (int i = 0; i < parameterNames.length; i++) {
 					String parameterName = parameterNames[i];
 					if (parameterName.equals(anno.lockid())){

@@ -7,6 +7,7 @@ import java.lang.annotation.*;
 @Target({ElementType.PARAMETER, ElementType.METHOD})    
 @Retention(RetentionPolicy.RUNTIME)    
 @Documented    
-public  @interface Servicelock { 
-	 String lockid();
+public  @interface Servicelock {
+	String lockpre() default "com.xiaohes.distributed:";
+	String lockid() default "";
 }
