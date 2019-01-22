@@ -2,6 +2,7 @@ package com.xiaohes.demo;
 
 import com.alibaba.fescar.rm.RMClientAT;
 import com.alibaba.fescar.spring.annotation.GlobalTransactionScanner;
+import com.alibaba.fescar.tm.TMClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -13,13 +14,14 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableFeignClients("com.xiaohes.feign")
-@ComponentScan(basePackages = {"com.xiaohes.feign","com.xiaohes.demo"})
+@ComponentScan("com.xiaohes.*")
+//@ComponentScan(basePackages = {"com.xiaohes.feign","com.xiaohes.demo"})
 @EnableCircuitBreaker
 public class DemoApplication {
 
     public static void main(String[] args) {
 
-        String applicationId = "dubbo-demo-order-service";
+        String applicationId = "demo";
         String txServiceGroup = "my_test_tx_group";
 
         RMClientAT.init(applicationId, txServiceGroup);
@@ -29,7 +31,7 @@ public class DemoApplication {
 
     @Bean
     public GlobalTransactionScanner globalTransactionScanner() {
-        return new GlobalTransactionScanner("demo-order-service","my_test_tx_group");
+        return new GlobalTransactionScanner("demo","my_test_tx_group");
     }
 }
 

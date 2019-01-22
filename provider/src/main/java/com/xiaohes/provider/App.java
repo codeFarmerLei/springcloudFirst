@@ -16,11 +16,12 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableDiscoveryClient()
 @SpringBootApplication
 @EnableCircuitBreaker
+@ComponentScan("com.xiaohes.*")
 public class App 
 {
     public static void main(String[] args) {
 
-        String applicationId = "dubbo-demo-storage-service";
+        String applicationId = "provider";
         String txServiceGroup = "my_test_tx_group";
 
         RMClientAT.init(applicationId, txServiceGroup);
@@ -30,6 +31,6 @@ public class App
 
     @Bean
     public GlobalTransactionScanner globalTransactionScanner() {
-        return new GlobalTransactionScanner("demo-storage-service","my_test_tx_group");
+        return new GlobalTransactionScanner("provider","my_test_tx_group");
     }
 }
