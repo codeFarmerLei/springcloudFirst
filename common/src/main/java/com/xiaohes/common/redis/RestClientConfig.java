@@ -1,4 +1,4 @@
-package com.xiaohes.feign;
+package com.xiaohes.common.redis;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

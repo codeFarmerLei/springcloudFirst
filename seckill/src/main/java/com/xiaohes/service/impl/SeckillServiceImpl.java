@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xiaohes.common.annotation.Servicelock;
 import com.xiaohes.common.bean.Result;
-import com.xiaohes.common.utils.RedissLockUtil;
 import com.xiaohes.mapping.SeckillMapper;
 import com.xiaohes.mapping.SeckillResultMapper;
 import com.xiaohes.service.ISeckillService;
@@ -17,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -36,7 +33,7 @@ public class SeckillServiceImpl implements ISeckillService {
     @Autowired
     SeckillMapper seckillMapper;
 	@Autowired
-	SeckillResultMapper seckillResultMapper;
+    SeckillResultMapper seckillResultMapper;
 
 	@Override
 	public PageInfo<Map<String,Object>> getSeckillList() {
@@ -49,7 +46,7 @@ public class SeckillServiceImpl implements ISeckillService {
 
 	@Override
 	@Transactional
-	public Result startSeckill(long seckillId,long userId) {
+	public Result startSeckill(long seckillId, long userId) {
 		//校验库存
 		Long number =  seckillMapper.selectItemNum(seckillId);
 		if(number>0){

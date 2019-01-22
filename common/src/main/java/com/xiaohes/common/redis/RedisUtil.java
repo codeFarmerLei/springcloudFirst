@@ -1,4 +1,4 @@
-package com.xiaohes.common.utils;
+package com.xiaohes.common.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

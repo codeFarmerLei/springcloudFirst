@@ -1,4 +1,4 @@
-package com.xiaohes.common.utils;
+package com.xiaohes.common.redis;
 
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;

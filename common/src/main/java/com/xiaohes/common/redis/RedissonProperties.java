@@ -1,4 +1,4 @@
-package com.xiaohes.common.utils;
+package com.xiaohes.common.redis;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>provider</artifactId>
+    <artifactId>fescardemo</artifactId>
 
-    <name>provider</name>
+    <name>fescardemo</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -40,11 +40,6 @@
             <artifactId>fescar-spring</artifactId>
             <version>0.1.2-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.fescar</groupId>
-            <artifactId>fescar-tm</artifactId>
-            <version>0.1.2-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -52,25 +47,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <!--加入maven插件“docker-maven-plugin”-->
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <imageName>provider</imageName>
-                    <dockerHost>https://192.168.99.100:2376</dockerHost>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
             </plugin>
         </plugins>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
@@ -117,5 +93,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

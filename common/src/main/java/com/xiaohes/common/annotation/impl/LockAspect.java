@@ -1,8 +1,7 @@
 package com.xiaohes.common.annotation.impl;
 
 import com.xiaohes.common.annotation.Servicelock;
-import com.xiaohes.common.utils.RedisUtil;
-import com.xiaohes.common.utils.RedissLockUtil;
+import com.xiaohes.common.redis.RedissLockUtil;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -15,11 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

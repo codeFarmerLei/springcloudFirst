@@ -1,20 +1,14 @@
 package com.xiaohes.controller;
 
 import com.xiaohes.common.bean.Result;
-import com.xiaohes.service.ISeckillService;
 import com.xiaohes.webSocket.WebSocketServer;
+import com.xiaohes.service.ISeckillService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.common.requests.OffsetFetchRequest;
-import org.apache.kafka.common.requests.OffsetFetchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author by lei

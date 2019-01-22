@@ -22,6 +22,7 @@
         <module>provider</module>
         <module>gateway</module>
         <module>seckill</module>
+        <module>fescardemo</module>
     </modules>
 
     <!--配置参数-->

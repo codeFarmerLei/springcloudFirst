@@ -2,7 +2,7 @@ package com.xiaohes.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xiaohes.common.bean.Result;
-import com.xiaohes.common.utils.RedisUtil;
+import com.xiaohes.common.redis.RedisUtil;
 import com.xiaohes.service.ISeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;

@@ -41,7 +41,7 @@ public class helloController {
     //@HystrixCommand(fallbackMethod = "error")
     @GetMapping("/hi")
     public String hiByFeign(){
-        return "Hello "+itemClient.getName();
+        return "Hello " + itemClient.getName();
     }
 
     public String error()

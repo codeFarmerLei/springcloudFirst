@@ -14,4 +14,9 @@ public class ItemFallback implements ItemClient {
     public String getName() {
         return "item server error!";
     }
+
+    @Override
+    public String deduct(String commodityCode, int count) {
+        return "deduct error";
+    }
 }
