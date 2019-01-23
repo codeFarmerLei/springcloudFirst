@@ -39,6 +39,9 @@ public class OrderController {
     @Autowired
     OrderMapper orderMapper;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     @GetMapping("/gettx")
     @GlobalTransactional(timeoutMills = 300000, name = "dubbo-demo-tx")
     public String gettx(){
@@ -51,6 +54,7 @@ public class OrderController {
     }
 
     @GetMapping("/create")
+    @TransBind
     public Result create(String userId, String commodityCode, int orderCount) {
         log.info("Order Service Begin ... xid: " + RootContext.getXID());
 
@@ -71,26 +75,4 @@ public class OrderController {
     }
 
 
-    @Autowired
-    ItemClient itemClient;
-    @Autowired
-    OrderService orderService;
-    @Autowired
-    private RedisUtil redisUtil;
-
-    @GetMapping("/purchase")
-    @GlobalTransactional(timeoutMills = 300000, name = "dubbo-demo-tx")
-    public void purchase(String userId, String commodityCode, int orderCount) {
-        log.info("=========================begin=============================");
-        String xid = RootContext.getXID();
-        log.info("purchase begin ... xid: {},commodityCode:{},orderCount:{},userId:{}", xid ,commodityCode,orderCount,userId);
-
-        redisUtil.add(RootContext.KEY_XID, xid);
-        String dret = itemClient.deduct(commodityCode, orderCount);
-        int f=1/0;
-        Result result = orderService.create(userId, commodityCode, orderCount);
-        log.info(result.toString()+",,,,,,"+dret);
-        log.info("=========================success=============================");
-        throw new RuntimeException("xxx");
-    }
 }

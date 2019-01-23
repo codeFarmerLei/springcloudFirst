@@ -1,4 +1,4 @@
-package com.xiaohes.txdemo;
+package com.xiaohes.demo;
 
 import com.alibaba.fescar.core.context.RootContext;
 import com.alibaba.fescar.spring.annotation.GlobalTransactional;
@@ -43,15 +43,4 @@ public class BusinessController {
         //throw new RuntimeException("xxx");
     }
 
-    @GetMapping("/index")
-    public String index()
-    {
-        return "index";
-    }
-
-    @GetMapping("/hi")
-    public String hi()
-    {
-        return "hi "+itemClient.getName();
-    }
 }

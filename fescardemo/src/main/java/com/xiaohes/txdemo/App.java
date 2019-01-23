@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.xiaohes.feign","com.xiaohes.txdemo"})
+@ComponentScan(basePackages = {"com.xiaohes.*"})
 @EnableCircuitBreaker
 public class App
 {

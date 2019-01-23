@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -53,9 +54,13 @@ public class TransBindAspect {
 
 		try {
 			String xid = RootContext.getXID();
-			rpcXid = redisUtil.get(RootContext.KEY_XID).toString();
+			Serializable cacheId = redisUtil.get(RootContext.KEY_XID);
+			if (cacheId!= null){
+				rpcXid = cacheId.toString();
+			}
 
-			log.debug("xid in RootContext[" + xid + "] xid in redis[" + rpcXid + "]");
+			log.info("=======================================bind=======================================");
+			log.info("xid in RootContext[" + xid + "] xid in redis[" + rpcXid + "]");
 
 			if (xid != null) {
 				redisUtil.add(RootContext.KEY_XID, xid);
@@ -63,7 +68,7 @@ public class TransBindAspect {
 				if (rpcXid != null) {
 					RootContext.bind(rpcXid);
 					bind = true;
-					log.debug("bind[" + rpcXid + "] to RootContext");
+					log.info("bind[" + rpcXid + "] to RootContext");
 				}
 			}
 
@@ -82,15 +87,16 @@ public class TransBindAspect {
 		} finally {
 			if (bind) {
 				String unbindXid = RootContext.unbind();
-				log.debug("unbind[" + unbindXid + "] from RootContext");
+				log.info("unbind[" + unbindXid + "] from RootContext");
 
 				if (!rpcXid.equalsIgnoreCase(unbindXid)) {
-					log.warn("xid in change during RPC from " + rpcXid + " to " + unbindXid);
+					log.info("xid in change during RPC from " + rpcXid + " to " + unbindXid);
 					if (unbindXid != null) {
 						RootContext.bind(unbindXid);
-						log.warn("bind [" + unbindXid + "] back to RootContext");
+						log.info("bind [" + unbindXid + "] back to RootContext");
 					}
 				}
+				log.info("=======================================unbind=======================================");
 			}
 		}
     	return obj;
