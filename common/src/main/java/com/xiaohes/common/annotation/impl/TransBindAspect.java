@@ -19,7 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -42,10 +46,13 @@ public class TransBindAspect {
 		
 	}
 
+	//@Autowired
+	//private RedisUtil redisUtil;
 	@Autowired
-	private RedisUtil redisUtil;
+	private HttpServletRequest request;
 
-    @Around("bindAspect() && @annotation(anno)")
+
+	@Around("bindAspect() && @annotation(anno)")
     public  Object around(ProceedingJoinPoint joinPoint, TransBind anno) {
 
 		Object obj = null;
@@ -54,16 +61,18 @@ public class TransBindAspect {
 
 		try {
 			String xid = RootContext.getXID();
-			Serializable cacheId = redisUtil.get(RootContext.KEY_XID);
-			if (cacheId!= null){
-				rpcXid = cacheId.toString();
-			}
+			//Serializable cacheId = redisUtil.get(RootContext.KEY_XID);
+			//if (cacheId!= null){
+			//	rpcXid = cacheId.toString();
+			//}
+
+			rpcXid = request.getHeader(RootContext.KEY_XID);
 
 			log.info("=======================================bind=======================================");
-			log.info("xid in RootContext[" + xid + "] xid in redis[" + rpcXid + "]");
+			log.info("xid in RootContext[" + xid + "] xid in other[" + rpcXid + "]");
 
 			if (xid != null) {
-				redisUtil.add(RootContext.KEY_XID, xid);
+				//redisUtil.add(RootContext.KEY_XID, xid);
 			} else {
 				if (rpcXid != null) {
 					RootContext.bind(rpcXid);

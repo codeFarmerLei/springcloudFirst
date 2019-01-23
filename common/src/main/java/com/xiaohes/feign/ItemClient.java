@@ -1,5 +1,6 @@
 package com.xiaohes.feign;
 
+import com.xiaohes.common.interceptor.FeignBasicAuthRequestInterceptor;
 import com.xiaohes.feign.impl.ItemFallback;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author by lei
  * @date 2019-1-16 14:32
  */
-@FeignClient(value = "provider",fallback = ItemFallback.class)
+@FeignClient(value = "provider",fallback = ItemFallback.class,configuration = FeignBasicAuthRequestInterceptor.class)
 @Component
 public interface ItemClient {
 

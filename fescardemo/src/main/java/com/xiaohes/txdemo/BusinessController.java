@@ -24,8 +24,8 @@ public class BusinessController {
     ItemClient itemClient;
     @Autowired
     OrderService orderService;
-    @Autowired
-    private RedisUtil redisUtil;
+    //@Autowired
+    //private RedisUtil redisUtil;
 
     @GetMapping("/purchase")
     @GlobalTransactional(timeoutMills = 300000, name = "dubbo-demo-tx")
@@ -34,12 +34,12 @@ public class BusinessController {
         String xid = RootContext.getXID();
         log.info("purchase begin ... xid: {},commodityCode:{},orderCount:{},userId:{}", xid ,commodityCode,orderCount,userId);
 
-        redisUtil.add(RootContext.KEY_XID, xid);
+        //redisUtil.add(RootContext.KEY_XID, xid);
         String dret = itemClient.deduct(commodityCode, orderCount);
         Result result = orderService.create(userId, commodityCode, orderCount);
         log.info(result.toString()+",,,,,,"+dret);
         log.info("=========================success=============================");
-        throw new RuntimeException("xxx");
+        //throw new RuntimeException("xxx");
     }
 
 
