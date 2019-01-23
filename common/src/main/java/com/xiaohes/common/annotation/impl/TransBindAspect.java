@@ -1,33 +1,20 @@
 package com.xiaohes.common.annotation.impl;
 
 import com.alibaba.fescar.core.context.RootContext;
-import com.alibaba.fescar.core.rpc.RpcContext;
-import com.xiaohes.common.annotation.Servicelock;
+import com.alibaba.fescar.spring.annotation.GlobalTransactional;
 import com.xiaohes.common.annotation.TransBind;
-import com.xiaohes.common.redis.RedisUtil;
-import com.xiaohes.common.redis.RedissLockUtil;
-import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 同步锁 AOP
@@ -60,6 +47,11 @@ public class TransBindAspect {
 		String rpcXid = null;
 
 		try {
+
+
+			/**
+			 * 绑定事务id
+			 */
 			String xid = RootContext.getXID();
 			//Serializable cacheId = redisUtil.get(RootContext.KEY_XID);
 			//if (cacheId!= null){
@@ -80,10 +72,6 @@ public class TransBindAspect {
 					log.info("bind[" + rpcXid + "] to RootContext");
 				}
 			}
-
-
-
-
 			obj = joinPoint.proceed();
 
 
@@ -94,6 +82,7 @@ public class TransBindAspect {
 			e.printStackTrace();
 			throw new RuntimeException();
 		} finally {
+
 			if (bind) {
 				String unbindXid = RootContext.unbind();
 				log.info("unbind[" + unbindXid + "] from RootContext");
@@ -107,7 +96,12 @@ public class TransBindAspect {
 				}
 				log.info("=======================================unbind=======================================");
 			}
+
 		}
+
+
+
+
     	return obj;
     } 
 }

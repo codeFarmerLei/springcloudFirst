@@ -5,7 +5,6 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.fescar.rm.RMClientAT;
 import com.alibaba.fescar.rm.datasource.DataSourceProxy;
 import com.alibaba.fescar.spring.annotation.GlobalTransactionScanner;
-import com.alibaba.fescar.tm.TMClient;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,17 +30,16 @@ import javax.sql.DataSource;
 public class DemoApplication {
 
     public static void main(String[] args) {
-
-        //String applicationId = "demo";
-        //String txServiceGroup = "my_test_tx_group";
-        //
-        //RMClientAT.init(applicationId, txServiceGroup);
-
         SpringApplication.run(DemoApplication.class, args);
     }
 
     //@Bean
     //public GlobalTransactionScanner globalTransactionScanner() {
+    //
+    //    String applicationId = "demo";
+    //    String txServiceGroup = "my_test_tx_group";
+    //    RMClientAT.init(applicationId, txServiceGroup);
+    //
     //    return new GlobalTransactionScanner("demo","my_test_tx_group");
     //}
 
