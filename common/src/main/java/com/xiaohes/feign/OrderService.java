@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Component
 public interface OrderService {
 
+    @GetMapping("/gettx")
+    String gettx();
+
     @GetMapping("/create")
     Result create(@RequestParam("userId") String userId,@RequestParam("commodityCode")  String commodityCode,@RequestParam("orderCount")  int orderCount);
 }

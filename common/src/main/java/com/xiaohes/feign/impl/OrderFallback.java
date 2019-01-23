@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class OrderFallback implements OrderService {
+
+    @Override
+    public String gettx() {
+        return "gettx error";
+    }
+
     @Override
     public Result create(String userId, String commodityCode, int orderCount) {
         return Result.error();
