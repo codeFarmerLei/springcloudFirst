@@ -36,22 +36,16 @@ public class BusinessController {
 
         redisUtil.add(RootContext.KEY_XID, xid);
         String dret = itemClient.deduct(commodityCode, orderCount);
-        //int f=1/0;
         Result result = orderService.create(userId, commodityCode, orderCount);
         log.info(result.toString()+",,,,,,"+dret);
         log.info("=========================success=============================");
-        //throw new RuntimeException("xxx");
+        throw new RuntimeException("xxx");
     }
 
-    @GetMapping("/index")
-    public String index()
-    {
-        return "index";
-    }
 
     @GetMapping("/hi")
     public String hi()
     {
-        return "hi "+itemClient.getName();
+        return "hi "+orderService.gettx();
     }
 }

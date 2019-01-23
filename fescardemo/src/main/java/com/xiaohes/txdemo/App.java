@@ -17,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.xiaohes.*"})
 @EnableCircuitBreaker
+@EnableFeignClients("com.xiaohes.feign")
 public class App
 {
     public static void main(String[] args) {
