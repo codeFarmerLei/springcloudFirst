@@ -32,10 +32,10 @@ public class DemoApplication {
 
     public static void main(String[] args) {
 
-        String applicationId = "demo";
-        String txServiceGroup = "my_test_tx_group";
-
-        RMClientAT.init(applicationId, txServiceGroup);
+        //String applicationId = "demo";
+        //String txServiceGroup = "my_test_tx_group";
+        //
+        //RMClientAT.init(applicationId, txServiceGroup);
 
         SpringApplication.run(DemoApplication.class, args);
     }

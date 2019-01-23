@@ -34,10 +34,10 @@ public class App
 {
     public static void main(String[] args) {
 
-        String applicationId = "provider";
-        String txServiceGroup = "my_test_tx_group";
-
-        RMClientAT.init(applicationId, txServiceGroup);
+        //String applicationId = "provider";
+        //String txServiceGroup = "my_test_tx_group";
+        //
+        //RMClientAT.init(applicationId, txServiceGroup);
 
         SpringApplication.run(App.class, args);
     }
