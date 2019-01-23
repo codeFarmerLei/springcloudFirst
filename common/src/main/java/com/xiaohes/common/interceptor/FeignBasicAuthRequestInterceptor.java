@@ -6,6 +6,13 @@ import feign.RequestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author by lei
@@ -28,22 +35,14 @@ public class FeignBasicAuthRequestInterceptor implements RequestInterceptor {
                 log.info("========================header 添加 xid{}", xid);
             }
 
-            /*
+
+
+
             //添加请求头
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-                    .getRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-            Enumeration<String> headerNames = request.getHeaderNames();
-            if (headerNames != null) {
-                while (headerNames.hasMoreElements()) {
-                    String name = headerNames.nextElement();
-                    String values = request.getHeader(name);
-                    requestTemplate.header(name, values);
+            HttpServletRequest request = getHttpServletRequest();
+            setHeaders(request,requestTemplate);
 
-                }
-                log.info("feign interceptor header:{}",requestTemplate);
-            }
-
+            /*
             //添加请求参数
             Enumeration<String> bodyNames = request.getParameterNames();
             StringBuffer body =new StringBuffer();
@@ -66,4 +65,30 @@ public class FeignBasicAuthRequestInterceptor implements RequestInterceptor {
             log.info(e.getMessage());
         }
     }
+
+
+
+
+    private HttpServletRequest getHttpServletRequest() {
+        try {
+            return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void setHeaders(HttpServletRequest request,RequestTemplate requestTemplate) {
+        //Map<String, String> map = new LinkedHashMap<>();
+        Enumeration<String> enumeration = request.getHeaderNames();
+        while (enumeration.hasMoreElements()) {
+            String key = enumeration.nextElement();
+            String value = request.getHeader(key);
+            requestTemplate.header(key, value);
+
+            //map.put(key, value);
+        }
+        //return map;
+    }
+
 }
