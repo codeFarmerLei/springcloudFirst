@@ -40,10 +40,10 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-    @Bean
-    public GlobalTransactionScanner globalTransactionScanner() {
-        return new GlobalTransactionScanner("demo","my_test_tx_group");
-    }
+    //@Bean
+    //public GlobalTransactionScanner globalTransactionScanner() {
+    //    return new GlobalTransactionScanner("demo","my_test_tx_group");
+    //}
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
