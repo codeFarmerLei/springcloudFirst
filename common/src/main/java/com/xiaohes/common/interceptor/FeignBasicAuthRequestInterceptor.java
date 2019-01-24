@@ -40,24 +40,10 @@ public class FeignBasicAuthRequestInterceptor implements RequestInterceptor {
 
             //添加请求头
             HttpServletRequest request = getHttpServletRequest();
-            setHeaders(request,requestTemplate);
-
-            /*
-            //添加请求参数
-            Enumeration<String> bodyNames = request.getParameterNames();
-            StringBuffer body =new StringBuffer();
-            if (bodyNames != null) {
-                while (bodyNames.hasMoreElements()) {
-                    String name = bodyNames.nextElement();
-                    String values = request.getParameter(name);
-                    body.append(name).append("=").append(values).append("&");
-                }
+            if (request != null){
+                setHeaders(request,requestTemplate);
+                //setBody(request,requestTemplate);
             }
-            if(body.length()!=0) {
-                body.deleteCharAt(body.length()-1);
-                requestTemplate.body(body.toString());
-                //log.info("feign interceptor body:{}",body.toString());
-            }*/
 
 
         } catch (Throwable e) {
@@ -67,8 +53,10 @@ public class FeignBasicAuthRequestInterceptor implements RequestInterceptor {
     }
 
 
-
-
+    /**
+     * 获取request
+     * @return
+     */
     private HttpServletRequest getHttpServletRequest() {
         try {
             return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -78,9 +66,17 @@ public class FeignBasicAuthRequestInterceptor implements RequestInterceptor {
         }
     }
 
+    /**
+     * 添加请求头
+     * @param request
+     * @param requestTemplate
+     */
     private void setHeaders(HttpServletRequest request,RequestTemplate requestTemplate) {
         //Map<String, String> map = new LinkedHashMap<>();
         Enumeration<String> enumeration = request.getHeaderNames();
+        if (enumeration == null) {
+            return;
+        }
         while (enumeration.hasMoreElements()) {
             String key = enumeration.nextElement();
             String value = request.getHeader(key);
@@ -91,4 +87,26 @@ public class FeignBasicAuthRequestInterceptor implements RequestInterceptor {
         //return map;
     }
 
+    /**
+     * 添加请求参数
+     * @param request
+     * @param requestTemplate
+     */
+    private void setBody(HttpServletRequest request,RequestTemplate requestTemplate) {
+        Enumeration<String> bodyNames = request.getParameterNames();
+        if (bodyNames == null) {
+            return;
+        }
+        StringBuffer body = new StringBuffer();
+        while (bodyNames.hasMoreElements()) {
+            String name = bodyNames.nextElement();
+            String values = request.getParameter(name);
+            body.append(name).append("=").append(values).append("&");
+        }
+        if(body.length()>0) {
+            body.deleteCharAt(body.length()-1);
+            requestTemplate.body(body.toString());
+            //log.info("feign interceptor body:{}",body.toString());
+        }
+    }
 }
