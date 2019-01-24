@@ -23,6 +23,7 @@
         <module>gateway</module>
         <module>seckill</module>
         <module>fescardemo</module>
+        <module>authservice</module>
     </modules>
 
     <!--配置参数-->

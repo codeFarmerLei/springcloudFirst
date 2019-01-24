@@ -1,7 +1,7 @@
 package com.xiaohes.common.annotation.impl;
 
 import com.xiaohes.common.annotation.Servicelock;
-import com.xiaohes.common.redis.RedissLockUtil;
+import com.xiaohes.redis.RedissLockUtil;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;

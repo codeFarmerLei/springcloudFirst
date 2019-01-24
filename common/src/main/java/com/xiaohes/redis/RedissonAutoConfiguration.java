@@ -1,4 +1,4 @@
-package com.xiaohes.common.redis;
+package com.xiaohes.redis;
 
 import org.apache.commons.lang.StringUtils;
 import org.redisson.Redisson;

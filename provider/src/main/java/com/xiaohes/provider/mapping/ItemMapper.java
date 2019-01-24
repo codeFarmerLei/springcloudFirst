@@ -12,7 +12,6 @@ import java.util.Map;
  * @date 2019-1-17 17:55
  */
 @Mapper
-@Component
 public interface ItemMapper {
 
     @Insert("update storage_tbl set count = count - #{count} where commodity_code=#{commodityCode}")

@@ -1,6 +1,7 @@
 package com.xiaohes.feign.impl;
 
-import com.xiaohes.feign.ItemClient;
+import com.xiaohes.common.bean.User;
+import com.xiaohes.feign.ProviderFeign;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @date 2019-1-17 9:34
  */
 @Component
-public class ItemFallback implements ItemClient {
+public class ProviderFallback implements ProviderFeign {
     @Override
     public String getName() {
         return "item server error!";
@@ -18,5 +19,10 @@ public class ItemFallback implements ItemClient {
     @Override
     public String deduct(String commodityCode, int count) {
         return "deduct error";
+    }
+
+    @Override
+    public User postUser(String username, String password) {
+        return null;
     }
 }

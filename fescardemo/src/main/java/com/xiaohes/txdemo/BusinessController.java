@@ -3,9 +3,8 @@ package com.xiaohes.txdemo;
 import com.alibaba.fescar.core.context.RootContext;
 import com.alibaba.fescar.spring.annotation.GlobalTransactional;
 import com.xiaohes.common.bean.Result;
-import com.xiaohes.common.redis.RedisUtil;
-import com.xiaohes.feign.ItemClient;
-import com.xiaohes.feign.OrderService;
+import com.xiaohes.feign.ProviderFeign;
+import com.xiaohes.feign.DemoFeign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,9 @@ public class BusinessController {
     private static final Logger log = LoggerFactory.getLogger(BusinessController.class);
 
     @Autowired
-    ItemClient itemClient;
+    ProviderFeign providerFeign;
     @Autowired
-    OrderService orderService;
+    DemoFeign demoFeign;
     //@Autowired
     //private RedisUtil redisUtil;
 
@@ -35,8 +34,8 @@ public class BusinessController {
         log.info("purchase begin ... xid: {},commodityCode:{},orderCount:{},userId:{}", xid ,commodityCode,orderCount,userId);
 
         //redisUtil.add(RootContext.KEY_XID, xid);
-        String dret = itemClient.deduct(commodityCode, orderCount);
-        Result result = orderService.create(userId, commodityCode, orderCount);
+        String dret = providerFeign.deduct(commodityCode, orderCount);
+        Result result = demoFeign.create(userId, commodityCode, orderCount);
         log.info(result.toString()+",,,,,,"+dret);
         log.info("=========================success=============================");
         //throw new RuntimeException("xxx");
@@ -46,6 +45,6 @@ public class BusinessController {
     @GetMapping("/hi")
     public String hi()
     {
-        return "hi "+orderService.gettx();
+        return "hi "+ demoFeign.gettx();
     }
 }

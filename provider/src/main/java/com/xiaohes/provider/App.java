@@ -8,12 +8,15 @@ import com.alibaba.fescar.spring.annotation.GlobalTransactionScanner;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -24,10 +27,14 @@ import javax.sql.DataSource;
  * Hello world!
  *
  */
-@EnableDiscoveryClient()
 @SpringBootApplication
+@EnableEurekaClient
+@EnableDiscoveryClient
 @EnableCircuitBreaker
+@EnableFeignClients
 @ComponentScan("com.xiaohes.*")
+//@ComponentScan(basePackages = {"com.xiaohes.common.*","com.xiaohes.feign.*","com.xiaohes.redis","com.xiaohes.provider"})
+@MapperScan(basePackages = {"com.xiaohes.common.mapping","com.xiaohes.provider.mapping"})
 public class App 
 {
     public static void main(String[] args) {

@@ -2,7 +2,7 @@ package com.xiaohes.provider;
 
 import com.xiaohes.common.annotation.TransBind;
 import com.xiaohes.common.bean.Result;
-import com.xiaohes.common.redis.RedisUtil;
+import com.xiaohes.redis.RedisUtil;
 import com.xiaohes.provider.mapping.ItemMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class ItemController {
 
     @GetMapping("/getName")
     public String getName(){
-        return "apple!"+itemMapper.selectCount();
+        return "apple!";
     }
 
     @Autowired

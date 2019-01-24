@@ -1,7 +1,7 @@
 package com.xiaohes.demo;
 
 
-import com.xiaohes.feign.ItemClient;
+import com.xiaohes.feign.ProviderFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,12 +36,12 @@ public class helloController {
     //}
 
     @Autowired
-    ItemClient itemClient;
+    ProviderFeign providerFeign;
 
     //@HystrixCommand(fallbackMethod = "error")
     @GetMapping("/hi")
     public String hiByFeign(){
-        return "Hello " + itemClient.getName();
+        return "Hello " + providerFeign.getName();
     }
 
     public String error()

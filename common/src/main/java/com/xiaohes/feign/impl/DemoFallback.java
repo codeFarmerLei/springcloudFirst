@@ -1,7 +1,7 @@
 package com.xiaohes.feign.impl;
 
 import com.xiaohes.common.bean.Result;
-import com.xiaohes.feign.OrderService;
+import com.xiaohes.feign.DemoFeign;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @date 2019-1-22 13:41
  */
 @Component
-public class OrderFallback implements OrderService {
+public class DemoFallback implements DemoFeign {
 
     @Override
     public String gettx() {

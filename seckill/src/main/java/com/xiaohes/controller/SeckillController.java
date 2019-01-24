@@ -2,7 +2,7 @@ package com.xiaohes.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xiaohes.common.bean.Result;
-import com.xiaohes.common.redis.RedisUtil;
+import com.xiaohes.redis.RedisUtil;
 import com.xiaohes.service.ISeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
