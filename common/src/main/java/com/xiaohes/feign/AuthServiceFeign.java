@@ -4,6 +4,7 @@ import com.xiaohes.common.interceptor.FeignBasicAuthRequestInterceptor;
 import com.xiaohes.feign.impl.AuthServiceFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,4 +24,7 @@ public interface AuthServiceFeign {
     @PostMapping(value = "/oauth/token")
     Map<String,Object> getToken(@RequestHeader(value = "Authorization") String authorization, @RequestParam("grant_type") String type,
                                 @RequestParam("username") String username, @RequestParam("password") String password);
+
+    @GetMapping("/index")
+    String index();
 }

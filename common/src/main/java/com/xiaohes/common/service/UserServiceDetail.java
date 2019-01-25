@@ -2,6 +2,7 @@ package com.xiaohes.common.service;
 
 import com.xiaohes.common.bean.Result;
 import com.xiaohes.common.bean.User;
+import com.xiaohes.common.mapping.RoleMapper;
 import com.xiaohes.common.mapping.UserServiceDetailMapper;
 import com.xiaohes.common.utils.BPwdEncoderUtil;
 import com.xiaohes.feign.AuthServiceFeign;
@@ -22,11 +23,17 @@ import java.util.Map;
 public class UserServiceDetail implements UserDetailsService {
 
     @Autowired
+    RoleMapper roleMapper;
+    @Autowired
     UserServiceDetailMapper userServiceDetailMapper;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userServiceDetailMapper.selectByUsername(s);
+        User user = userServiceDetailMapper.selectByUsername(s);
+        if (user != null) {
+            user.setAuthorities(roleMapper.selectByUserId(user.getId()));
+        }
+        return user;
     }
 
     /**
@@ -72,7 +79,7 @@ public class UserServiceDetail implements UserDetailsService {
         Map<String,Object> jwt = client.getToken("Basic dXNlci1zZXJ2aWNlOjEyMzQ1Ng==","password",username,password);
         // 获得用户菜单
         if(jwt == null){
-            return Result.error("error internal");
+            return Result.error("getToken error");
         }
 
         Map<String,Object> data = new HashMap<>();

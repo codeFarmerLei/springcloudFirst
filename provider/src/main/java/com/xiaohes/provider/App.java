@@ -31,7 +31,7 @@ import javax.sql.DataSource;
 @EnableEurekaClient
 @EnableDiscoveryClient
 @EnableCircuitBreaker
-@EnableFeignClients
+@EnableFeignClients("com.xiaohes.feign")
 @ComponentScan("com.xiaohes.*")
 //@ComponentScan(basePackages = {"com.xiaohes.common.*","com.xiaohes.feign.*","com.xiaohes.redis","com.xiaohes.provider"})
 @MapperScan(basePackages = {"com.xiaohes.common.mapping","com.xiaohes.provider.mapping"})
@@ -50,29 +50,29 @@ public class App
     //
     //    return new GlobalTransactionScanner("provider","my_test_tx_group");
     //}
-
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource getDateSource() {
-        return DruidDataSourceBuilder.create().build();
-    }
-
-    @Bean
-    public SqlSessionFactory getSqlSessionFactory(@Qualifier("getDateSource") DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        DataSourceProxy dspy = new DataSourceProxy((DruidDataSource) dataSource);
-        bean.setDataSource(dspy);
-        return bean.getObject();
-    }
-
-    @Bean
-    public SqlSessionTemplate getSqlSessionTemplate(SqlSessionFactory sqlSessionFactory){
-        SqlSessionTemplate temp = new SqlSessionTemplate(sqlSessionFactory);
-        return temp;
-    }
-
-    @Bean
-    public DataSourceTransactionManager transactionManager(DataSource dataSource) throws Exception {
-        return new DataSourceTransactionManager(dataSource);
-    }
+    //
+    //@Bean
+    //@ConfigurationProperties(prefix = "spring.datasource")
+    //public DataSource getDateSource() {
+    //    return DruidDataSourceBuilder.create().build();
+    //}
+    //
+    //@Bean
+    //public SqlSessionFactory getSqlSessionFactory(@Qualifier("getDateSource") DataSource dataSource) throws Exception {
+    //    SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+    //    DataSourceProxy dspy = new DataSourceProxy((DruidDataSource) dataSource);
+    //    bean.setDataSource(dspy);
+    //    return bean.getObject();
+    //}
+    //
+    //@Bean
+    //public SqlSessionTemplate getSqlSessionTemplate(SqlSessionFactory sqlSessionFactory){
+    //    SqlSessionTemplate temp = new SqlSessionTemplate(sqlSessionFactory);
+    //    return temp;
+    //}
+    //
+    //@Bean
+    //public DataSourceTransactionManager transactionManager(DataSource dataSource) throws Exception {
+    //    return new DataSourceTransactionManager(dataSource);
+    //}
 }

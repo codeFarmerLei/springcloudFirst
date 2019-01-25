@@ -15,4 +15,9 @@ public class AuthServiceFallback implements AuthServiceFeign {
     public Map<String,Object> getToken(String authorization, String type, String username, String password) {
         return null;
     }
+
+    @Override
+    public String index() {
+        return "index error";
+    }
 }

@@ -3,11 +3,12 @@ package com.xiaohes.provider.controller;
 import com.xiaohes.common.bean.Result;
 import com.xiaohes.common.bean.User;
 import com.xiaohes.common.service.UserServiceDetail;
+import com.xiaohes.feign.AuthServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 /**
  * 用户相关控制器
@@ -37,4 +38,11 @@ public class UserController {
             return Result.error(e.getMessage());
         }
     }
+
+    @RequestMapping(value = "/foo", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String getFoo() {
+        return "i'm foo, " + UUID.randomUUID().toString();
+    }
+
 }

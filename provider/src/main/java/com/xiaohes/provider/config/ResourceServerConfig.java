@@ -22,16 +22,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/login","/user/register").permitAll()
+                .antMatchers("/user/login","/user/register","/user/authtest").permitAll()
                 .antMatchers("/**").authenticated();
 
     }
 
-    //@Autowired
-    //TokenStore tokenStore;
-    //
-    //@Override
-    //public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-    //    resources.tokenStore(tokenStore);
-    //}
+    @Autowired
+    TokenStore tokenStore;
+
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.tokenStore(tokenStore);
+    }
 }

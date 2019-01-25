@@ -22,27 +22,27 @@ import java.io.IOException;
 public class JwtConfig {
 
 
-    //@Bean
-    //protected JwtAccessTokenConverter jwtTokenEnhancer() {
-    //    //用作 JWT 转换器
-    //    JwtAccessTokenConverter converter =  new JwtAccessTokenConverter();
-    //    Resource resource = new ClassPathResource("public.cert");
-    //    String publicKey ;
-    //    try {
-    //        publicKey = new String(FileCopyUtils.copyToByteArray(resource.getInputStream()));
-    //    } catch (IOException e) {
-    //        throw new RuntimeException(e);
-    //    }
-    //    converter.setVerifierKey(publicKey); //设置公钥
-    //    return converter;
-    //}
+    @Bean
+    protected JwtAccessTokenConverter jwtTokenEnhancer() {
+        //用作 JWT 转换器
+        JwtAccessTokenConverter converter =  new JwtAccessTokenConverter();
+        Resource resource = new ClassPathResource("public.cert");
+        String publicKey ;
+        try {
+            publicKey = new String(FileCopyUtils.copyToByteArray(resource.getInputStream()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        converter.setVerifierKey(publicKey); //设置公钥
+        return converter;
+    }
 
-    //@Autowired
-    //JwtAccessTokenConverter jwtAccessTokenConverter;
-    //
-    //@Bean
-    //public TokenStore tokenStore() {
-    //    return new JwtTokenStore(jwtAccessTokenConverter);
-    //}
+    @Autowired
+    JwtAccessTokenConverter jwtAccessTokenConverter;
+
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(jwtAccessTokenConverter);
+    }
 
 }
