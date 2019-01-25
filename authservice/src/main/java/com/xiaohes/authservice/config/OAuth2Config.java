@@ -40,7 +40,14 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .secret(bCryptPasswordEncoder.encode("123456"))
                 .scopes("service") //客户端的域
                 .authorizedGrantTypes("refresh_token", "password") //配置类验证类型为 refresh_token和password
-                .accessTokenValiditySeconds(12*300); //5min过期
+                .accessTokenValiditySeconds(12*300) //5min过期
+                .and()
+                .withClient("demo-service")
+                .secret(bCryptPasswordEncoder.encode("123456"))
+                .scopes("service") //客户端的域
+                .authorizedGrantTypes("refresh_token", "password") //配置类验证类型为 refresh_token和password
+                .accessTokenValiditySeconds(12*300) //5min过期
+        ;
     }
 
     @Override
