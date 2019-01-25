@@ -9,6 +9,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * @date 2019-1-24 14:40
  */
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class GlobalMethodSecurityConfig {
 }

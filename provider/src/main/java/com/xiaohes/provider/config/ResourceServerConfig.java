@@ -1,8 +1,13 @@
 package com.xiaohes.provider.config;
 
+import com.xiaohes.common.bean.Result;
+import com.xiaohes.common.interceptor.MyAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -32,6 +37,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenStore(tokenStore);
+        resources
+                .tokenStore(tokenStore)
+                //.authenticationEntryPoint(new MyAuthenticationEntryPoint())
+        ;
     }
+
+    //@Bean
+    //public BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails(){
+    //    BaseOAuth2ProtectedResourceDetails rd = new BaseOAuth2ProtectedResourceDetails();
+    //    return rd;
+    //}
 }

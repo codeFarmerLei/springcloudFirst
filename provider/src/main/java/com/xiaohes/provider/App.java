@@ -20,6 +20,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
 import javax.sql.DataSource;
 
@@ -35,6 +36,7 @@ import javax.sql.DataSource;
 @ComponentScan("com.xiaohes.*")
 //@ComponentScan(basePackages = {"com.xiaohes.common.*","com.xiaohes.feign.*","com.xiaohes.redis","com.xiaohes.provider"})
 @MapperScan(basePackages = {"com.xiaohes.common.mapping","com.xiaohes.provider.mapping"})
+@EnableOAuth2Client
 public class App 
 {
     public static void main(String[] args) {

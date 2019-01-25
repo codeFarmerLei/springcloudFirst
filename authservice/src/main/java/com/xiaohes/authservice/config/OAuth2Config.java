@@ -11,10 +11,14 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+
+import javax.sql.DataSource;
 
 /**
  * 配置 Authorization Server
@@ -48,7 +52,19 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .authorizedGrantTypes("refresh_token", "password") //配置类验证类型为 refresh_token和password
                 .accessTokenValiditySeconds(12*300) //5min过期
         ;
+        ////从jdbc查出oauth_client_details数据
+        //clients.withClientDetails(clientDetails());
     }
+//    /**
+//     * 数据源
+//     */
+//    @Autowired
+//    DataSource dataSource;
+//
+//    @Bean
+//    public ClientDetailsService clientDetails() {
+//        return new JdbcClientDetailsService(dataSource);
+//    }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
