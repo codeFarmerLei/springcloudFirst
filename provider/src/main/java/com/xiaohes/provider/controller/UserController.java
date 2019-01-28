@@ -2,8 +2,11 @@ package com.xiaohes.provider.controller;
 
 import com.xiaohes.common.bean.Result;
 import com.xiaohes.common.bean.User;
+import com.xiaohes.common.interceptor.MyAuthenticationEntryPoint;
 import com.xiaohes.common.service.UserServiceDetail;
 import com.xiaohes.feign.AuthServiceFeign;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     UserServiceDetail userServiceDetail;
 
@@ -43,6 +48,13 @@ public class UserController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getFoo() {
         return "i'm foo, " + UUID.randomUUID().toString();
+    }
+
+    @PostMapping("/authtest")
+    public String authtest(@RequestHeader(value = "Authorization") String authorization, @RequestParam("grant_type") String type,
+                           @RequestParam("client_id") String client_id, @RequestParam("client_secret") String client_secret) {
+        log.info("authorization:{},type:{},client_id:client_id",authorization,type,client_id);
+        return client_secret;
     }
 
 }

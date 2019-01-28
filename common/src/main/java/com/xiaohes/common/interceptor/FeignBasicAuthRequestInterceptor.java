@@ -3,6 +3,8 @@ package com.xiaohes.common.interceptor;
 import com.alibaba.fescar.core.context.RootContext;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import jodd.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;

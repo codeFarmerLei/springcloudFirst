@@ -1,5 +1,6 @@
 package com.xiaohes.authservice.config;
 
+import com.xiaohes.common.service.UserServiceDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -11,14 +12,10 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
-
-import javax.sql.DataSource;
 
 /**
  * 配置 Authorization Server
@@ -28,6 +25,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
+
+    @Autowired
+    UserServiceDetail userServiceDetail;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -44,7 +44,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .secret(bCryptPasswordEncoder.encode("123456"))
                 .scopes("service") //客户端的域
                 .authorizedGrantTypes("refresh_token", "password") //配置类验证类型为 refresh_token和password
-                .accessTokenValiditySeconds(12*300) //5min过期
+                .accessTokenValiditySeconds(30) //5min过期
                 .and()
                 .withClient("demo-service")
                 .secret(bCryptPasswordEncoder.encode("123456"))
@@ -68,7 +68,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore()).tokenEnhancer(jwtTokenEnhancer()).authenticationManager(authenticationManager);
+        endpoints.tokenStore(tokenStore()).tokenEnhancer(jwtTokenEnhancer()).authenticationManager(authenticationManager).userDetailsService(userServiceDetail);
     }
 
     @Autowired
