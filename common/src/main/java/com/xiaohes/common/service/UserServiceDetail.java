@@ -76,6 +76,7 @@ public class UserServiceDetail implements UserDetailsService {
 
 
         // 获取token
+        //dXNlci1zZXJ2aWNlOjEyMzQ1Ng== 是 user-service:123456的 base64编码
         Map<String,Object> jwt = client.getToken("Basic dXNlci1zZXJ2aWNlOjEyMzQ1Ng==","password",username,password);
         // 获得用户菜单
         if(jwt == null){
@@ -85,7 +86,8 @@ public class UserServiceDetail implements UserDetailsService {
         Map<String,Object> data = new HashMap<>();
         data.put("jwt",jwt);
         data.put("user",user);
-
+        System.setProperty("xiaohes.auth.access_token",jwt.get("access_token").toString());
+        System.setProperty("xiaohes.auth.refresh_token",jwt.get("refresh_token").toString());
 
 
         return Result.success(data);

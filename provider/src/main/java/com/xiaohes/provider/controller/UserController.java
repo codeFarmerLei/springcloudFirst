@@ -2,9 +2,7 @@ package com.xiaohes.provider.controller;
 
 import com.xiaohes.common.bean.Result;
 import com.xiaohes.common.bean.User;
-import com.xiaohes.common.interceptor.MyAuthenticationEntryPoint;
 import com.xiaohes.common.service.UserServiceDetail;
-import com.xiaohes.feign.AuthServiceFeign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

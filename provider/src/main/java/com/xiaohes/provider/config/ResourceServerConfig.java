@@ -1,12 +1,18 @@
 package com.xiaohes.provider.config;
 
-import com.xiaohes.common.interceptor.MyAuthenticationEntryPoint;
+import com.xiaohes.oauth.MyAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
+import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
@@ -30,14 +36,40 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     TokenStore tokenStore;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    TokenExtractor tokenExtractor;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
                 .tokenStore(tokenStore)
                 .authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                .authenticationManager(authenticationManager)
+                .tokenExtractor(tokenExtractor)
         ;
     }
+
+    @Bean
+    public AuthenticationManager oAuth2AuthenticationManager(){
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setTokenStore(tokenStore);
+        tokenServices.setSupportRefreshToken(true);
+
+        OAuth2AuthenticationManager authenticationManager = new OAuth2AuthenticationManager();
+        authenticationManager.setTokenServices(tokenServices);
+        return authenticationManager;
+    }
+
+    @Bean
+    public TokenExtractor bearerTokenExtractor(){
+        return new BearerTokenExtractor();
+    }
+
+
+    //@Autowired
+    //private OAuth2ClientProperties oAuth2ClientProperties;
 
     //@Bean
     //public BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails(){
