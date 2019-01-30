@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -28,6 +29,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     OAuth2ClientProperties oAuth2ClientProperties;
+    @Autowired
+    private BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -36,8 +40,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/user/login","/user/register","/user/authtest").permitAll()
                 .antMatchers("/**").authenticated();
 
-        System.out.println(oAuth2ClientProperties.getClientId());
-        System.out.println(oAuth2ClientProperties.getClientSecret());//1138dd78-0555-461e-bec7-c58c569b80e4
+        oAuth2ClientProperties.setClientId("web");
+        oAuth2ClientProperties.setClientSecret("123456");
+        baseOAuth2ProtectedResourceDetails.setAccessTokenUri("http://localhost:7979/oauth/token");
     }
 
     @Autowired
@@ -74,10 +79,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         return new BearerTokenExtractor();
     }
 
+    @Bean
+    public BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails(){
+        return new BaseOAuth2ProtectedResourceDetails();
+    }
 
-    //@Bean
-    //public BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails(){
-    //    BaseOAuth2ProtectedResourceDetails rd = new BaseOAuth2ProtectedResourceDetails();
-    //    return rd;
-    //}
 }

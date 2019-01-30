@@ -7,11 +7,14 @@ import com.xiaohes.common.mapping.UserServiceDetailMapper;
 import com.xiaohes.common.utils.BPwdEncoderUtil;
 import com.xiaohes.feign.AuthServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Encoder;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +59,9 @@ public class UserServiceDetail implements UserDetailsService {
     @Autowired
     private AuthServiceFeign client;
 
+    @Autowired
+    private OAuth2ClientProperties oAuth2ClientProperties;
+
     /**
      * 用户登录
      * @param username
@@ -76,8 +82,8 @@ public class UserServiceDetail implements UserDetailsService {
 
 
         // 获取token
-        //dXNlci1zZXJ2aWNlOjEyMzQ1Ng== 是 user-service:123456的 base64编码
-        Map<String,Object> jwt = client.getToken("Basic dXNlci1zZXJ2aWNlOjEyMzQ1Ng==","password",username,password);
+        //dXNlci1zZXJ2aWNlOjEyMzQ1Ng== 是 "user-service:123456"的 base64编码
+        Map<String,Object> jwt = client.getToken("Basic "+BPwdEncoderUtil.getBase64(String.format("%s:%s",oAuth2ClientProperties.getClientId(),oAuth2ClientProperties.getClientSecret())),"password",username,password);
         // 获得用户菜单
         if(jwt == null){
             return Result.error("getToken error");
