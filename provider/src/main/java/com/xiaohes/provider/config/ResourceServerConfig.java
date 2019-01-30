@@ -37,8 +37,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/login","/user/register","/user/authtest").permitAll()
-                .antMatchers("/**").authenticated();
+                //.antMatchers("/user/login","/user/register","/user/authtest").permitAll()
+                //.antMatchers("/**").authenticated();
+                .antMatchers("/**").permitAll();
 
         oAuth2ClientProperties.setClientId("user-service");
         oAuth2ClientProperties.setClientSecret("123456");

@@ -1,5 +1,6 @@
 package com.xiaohes.provider;
 
+import com.xiaohes.common.annotation.ServiceLimit;
 import com.xiaohes.common.annotation.TransBind;
 import com.xiaohes.common.bean.Result;
 import com.xiaohes.redis.RedisUtil;
@@ -24,6 +25,7 @@ public class ItemController {
     @Autowired
     private RedisUtil redisUtil;
 
+    @ServiceLimit
     @GetMapping("/getName")
     public String getName(){
         return "apple!";
