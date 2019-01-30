@@ -40,13 +40,14 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory() //将客户端的信息存储在内存中
-                .withClient("user-service") //创建了一个Client为"user-service"的客户端
+                .withClient("web") //创建了一个Client为"web"的客户端
                 .secret(bCryptPasswordEncoder.encode("123456"))
                 .scopes("service") //客户端的域
                 .authorizedGrantTypes("refresh_token", "password") //配置类验证类型为 refresh_token和password
                 .accessTokenValiditySeconds(12*300) //5min过期
+                .redirectUris("http://localhost:7890/")
                 .and()
-                .withClient("demo-service")
+                .withClient("app")
                 .secret(bCryptPasswordEncoder.encode("123456"))
                 .scopes("service") //客户端的域
                 .authorizedGrantTypes("refresh_token", "password") //配置类验证类型为 refresh_token和password

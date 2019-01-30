@@ -23,7 +23,7 @@ public class JwtConfig {
 
 
     @Bean
-    protected JwtAccessTokenConverter jwtTokenEnhancer() {
+    protected JwtAccessTokenConverter jwtAccessTokenConverter() {
         //用作 JWT 转换器
         JwtAccessTokenConverter converter =  new JwtAccessTokenConverter();
         Resource resource = new ClassPathResource("public.cert");

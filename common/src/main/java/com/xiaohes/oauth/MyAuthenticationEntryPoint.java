@@ -2,12 +2,11 @@ package com.xiaohes.oauth;
 
 import com.xiaohes.common.annotation.Servicelock;
 import com.xiaohes.common.interceptor.BodyReaderHttpServletRequestWrapper;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.http.*;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -37,8 +36,8 @@ public class MyAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoint {
 
     private static final Logger log = LoggerFactory.getLogger(MyAuthenticationEntryPoint.class);
 
-    @Autowired
-    private OAuth2ClientProperties oAuth2ClientProperties;
+    //@Autowired
+    //private OAuth2ClientProperties oAuth2ClientProperties;
     //@Autowired
     //private BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails;
     private WebResponseExceptionTranslator exceptionTranslator = new DefaultWebResponseExceptionTranslator();
@@ -57,12 +56,17 @@ public class MyAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoint {
             //解析异常，如果是401则处理
             ResponseEntity<?> result = exceptionTranslator.translate(authException);
             if (result.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                String refresh_token = System.getProperty("xiaohes.auth.refresh_token");
+                if (StringUtils.isEmpty(refresh_token)){
+                    //如果是网页,跳转到登陆页面
+                    response.sendRedirect("/user/login");
+                    return;
+                }
                 MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
-                formData.add("client_id", "user-service");//oAuth2ClientProperties.getClientId(),oAuth2ClientProperties.getClientSecret()
+                formData.add("client_id", "web");//oAuth2ClientProperties.getClientId(),oAuth2ClientProperties.getClientSecret()
                 formData.add("client_secret", "123456");
                 formData.add("grant_type", "refresh_token");
 
-                String refresh_token = System.getProperty("xiaohes.auth.refresh_token");//Cookie[] cookie = request.getCookies();
                 formData.add("refresh_token",refresh_token);
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -80,8 +84,10 @@ public class MyAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoint {
                 }else{
                     log.info("=============================刷新token成功=============================");
                     //如果刷新成功则存储cookie并且跳转到原来需要访问的页面
+                    //Cookie[] cookie = request.getCookies();
                     String access_token = String.valueOf(map.get("access_token"));
-                    System.setProperty("xiaohes.auth.refresh_token", String.valueOf(map.get("refresh_token")));
+                    refresh_token = String.valueOf(map.get("refresh_token"));
+                    System.setProperty("xiaohes.auth.refresh_token", refresh_token);
                     System.setProperty("xiaohes.auth.access_token", access_token);
 
 

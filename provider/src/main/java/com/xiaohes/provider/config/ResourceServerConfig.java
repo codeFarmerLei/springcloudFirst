@@ -2,6 +2,8 @@ package com.xiaohes.provider.config;
 
 import com.xiaohes.oauth.MyAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +26,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableResourceServer //开启Resource Server功能
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+    @Autowired
+    OAuth2ClientProperties oAuth2ClientProperties;
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -32,6 +36,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/user/login","/user/register","/user/authtest").permitAll()
                 .antMatchers("/**").authenticated();
 
+        System.out.println(oAuth2ClientProperties.getClientId());
+        System.out.println(oAuth2ClientProperties.getClientSecret());//1138dd78-0555-461e-bec7-c58c569b80e4
     }
 
     @Autowired
@@ -56,6 +62,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(tokenStore);
         tokenServices.setSupportRefreshToken(true);
+        //tokenServices.setClientDetailsService(clientDetails());
 
         OAuth2AuthenticationManager authenticationManager = new OAuth2AuthenticationManager();
         authenticationManager.setTokenServices(tokenServices);
@@ -67,9 +74,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         return new BearerTokenExtractor();
     }
 
-
-    //@Autowired
-    //private OAuth2ClientProperties oAuth2ClientProperties;
 
     //@Bean
     //public BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails(){
