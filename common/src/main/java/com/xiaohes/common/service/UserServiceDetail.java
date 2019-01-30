@@ -93,7 +93,7 @@ public class UserServiceDetail implements UserDetailsService {
         data.put("jwt",jwt);
         data.put("user",user);
         System.setProperty("xiaohes.auth.access_token",jwt.get("access_token").toString());
-        System.setProperty("xiaohes.auth.refresh_token",jwt.get("refresh_token").toString());
+        System.setProperty("xiaohes.auth.refresh_token",String.valueOf(jwt.get("refresh_token")).replace("null",""));
 
 
         return Result.success(data);

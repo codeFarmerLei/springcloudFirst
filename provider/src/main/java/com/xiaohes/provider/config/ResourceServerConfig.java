@@ -40,7 +40,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/user/login","/user/register","/user/authtest").permitAll()
                 .antMatchers("/**").authenticated();
 
-        oAuth2ClientProperties.setClientId("web");
+        oAuth2ClientProperties.setClientId("user-service");
         oAuth2ClientProperties.setClientSecret("123456");
         baseOAuth2ProtectedResourceDetails.setAccessTokenUri("http://localhost:7979/oauth/token");
     }

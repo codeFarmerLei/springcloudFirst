@@ -55,12 +55,13 @@ public class MyAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoint {
     @Override
     @Servicelock
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        String refresh_token = null;
         try {
             //解析异常，如果是401则处理
             ResponseEntity<?> result = exceptionTranslator.translate(authException);
             if (result.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 
-                String refresh_token = System.getProperty("xiaohes.auth.refresh_token");
+                refresh_token = System.getProperty("xiaohes.auth.refresh_token");
                 if (StringUtils.isEmpty(refresh_token)){
                     //如果是网页,跳转到登陆页面
                     response.sendRedirect("/user/login");
@@ -73,7 +74,7 @@ public class MyAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoint {
                 super.commence(request,response,authException);
             }
         } catch (Exception e) {
-            log.info("刷新tooken异常");
+            log.info("刷新token异常\nrefreshToken:{},\nclient_id:{},client_secret:{},\nurl:{},\nauth:{}",refresh_token,oAuth2ClientProperties.getClientId(),oAuth2ClientProperties.getClientSecret(),baseOAuth2ProtectedResourceDetails.getAccessTokenUri(),BPwdEncoderUtil.getBase64(String.format("%s:%s",oAuth2ClientProperties.getClientId(),oAuth2ClientProperties.getClientSecret())));
             e.printStackTrace();
         }
 
